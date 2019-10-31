@@ -1,7 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {getPokemon} from '../../ducks/reducer'
 
-const Open = () => (
+const Open = (props) => (
   <div className="open">
     <div className="background">
       <div className="camera-ring">
@@ -15,10 +17,26 @@ const Open = () => (
         <div className="little-circle green" />
       </div>
       <div className="inside">
-        
+        <h1>Welcome, {props.username}</h1>
+        {props.loading ? 'Loading...' : props.pokemon.results.map(pokemon => {
+          return <h3 key={pokemon.name}>{pokemon.name}</h3>
+        })}
+        <button
+          disabled={!props.pokemon.previous}
+          onClick={() => props.getPokemon(props.pokemon.previous)}
+        >
+        {'<<<'}</button>
+        <button
+        disabled={!props.pokemon.next}
+        onClick={() => props.getPokemon(props.pokemon.next)}
+        >{'>>>'}</button>
       </div>
     </div>
   </div>
 )
 
-export default Open
+function mapStateToProps(reduxState) {
+  return reduxState
+}
+
+export default connect(mapStateToProps, {getPokemon})(Open)

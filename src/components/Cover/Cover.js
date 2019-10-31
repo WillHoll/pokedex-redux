@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { setUsername, getPokemon } from './../../ducks/reducer';
+import { connect } from 'react-redux'
 
-const Cover = () => {
+const Cover = (props) => {
   return (
     <div className="cover">
       <div className="background">
@@ -15,10 +17,15 @@ const Cover = () => {
         </div>
         <div className="lid">
           <Link to="/open">
-            <div className="triangle-button" />
+            <div
+              className="triangle-button"
+              onClick={() => props.getPokemon('https://pokeapi.co/api/v2/pokemon')} />
           </Link>
           <div className="inputs">
-            <input placeholder="Username" type="text" />
+            <input
+              placeholder="Username"
+              type="text"
+              onChange={e => props.setUsername(e.target.value)} />
           </div>
         </div>
       </div>
@@ -26,4 +33,4 @@ const Cover = () => {
   )
 }
 
-export default Cover
+export default connect(null, { setUsername, getPokemon })(Cover)
